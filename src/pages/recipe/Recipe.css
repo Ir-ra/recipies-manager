@@ -27,6 +27,20 @@
   .recipe li:last-child::after {
     content: ".";
   }
+  .recipe button {
+    border: 0;
+    cursor: pointer;
+    color: rgb(191, 42, 42);
+    text-decoration: none;
+    display: block;
+    background: #e2e2e2;
+    font-size: 0.7em;
+    text-align: center;
+    width: 120px;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 20px auto 0;
+  }
   .method {
     text-align: left;
     line-height: 1.5em;

@@ -10,6 +10,15 @@ function Recipe() {
     const { data: recipE, isPending, error } = useFetch(url)
     const history = useHistory()
 
+//delete + redirect
+    const handleDelete = () => {
+        fetch('http://localhost:8000/recipes/'+recipE.id, {
+            method: 'DELETE'
+        }).then(()=>{
+            history.push('/')
+        })
+    }
+
     useEffect(() => {
         if(error){
             setTimeout(()=>{
@@ -33,6 +42,7 @@ function Recipe() {
                     </ul>
                     
                     <p className='method'>{recipE.method}</p>
+                    <button onClick={handleDelete}>delete</button>
                 </>
            )}
 
