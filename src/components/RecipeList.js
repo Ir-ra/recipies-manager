@@ -7,7 +7,7 @@ function RecipeList({recipes}) {
         <div className='recipe-list'>
             {recipes.map(recipe => (
                 <div key={recipe.id} className='card'>
-                <h2>{recipe.title}</h2>
+                <h2>{recipe.title.substring(0, 13)}</h2>
                 <p>{recipe.cookingTime} to make.</p>
                 <div>{recipe.method.substring(0, 100)}...</div>
                 

@@ -1,32 +1,44 @@
-
-import { useRef, useState } from 'react';
+import { useFetch } from '../../hooks/useFetch';
+import { useEffect, useRef, useState } from 'react';
+import {Redirect, useHistory} from 'react-router-dom'
 import './Create.css'
 
 function Create() {
     const [title, setTitle] = useState('')
     const [method, setMethod] = useState('')
     const [cookingTime, setCookingTime] = useState('')
-    const [newIng, setNewIng] = useState('')
-    const [ingS, setIngS] = useState([])
+    const [newIngredient, setNewIngredient] = useState('')
+    const [ingredients, setIngredients] = useState([])
     const ingredientInput = useRef(null)
+    const history = useHistory()
+
+    const {postData, data, error} = useFetch('http://localhost:8000/recipes', 'POST')
 
     const handleSubmit = (e) => {
         e.preventDefault()
-       
-        console.log(title, method, cookingTime, ingS)
+        console.log(title, method, cookingTime, ingredients)
+        postData({title, ingredients, method, cookingTime: cookingTime + ' minutes'})
+        
     }
 
     const handleAdd = (e) => {
         e.preventDefault()
-        const ingredient = newIng.trim()  //trim - take away any whitespace
+        const ing = newIngredient.trim()  //trim - take away any whitespace
         //перевірка чи ingS вміщують  повторні інгридієнти(ingredient)
-        if(ingredient && !ingS.includes(ingredient)){
-            setIngS(prevIngredients => [...prevIngredients, ingredient])
+        if(ing && !ingredients.includes(ing)){
+            setIngredients(prevIngredients => [...prevIngredients, newIngredient])
         }
-        setNewIng('')
+        setNewIngredient('')
         ingredientInput.current.focus()  //focus - фокусується на інпуті, так що курсор автоматично на на тому ж інпуті залиш
     }
-
+//redirect
+    useEffect(() => {
+        if(data){
+            // <Redirect to='/'/>
+            history.push('/')
+        }
+        
+    }, [data, history])
 
     return (
         <div className='create'>
@@ -48,14 +60,14 @@ function Create() {
                     <div className='ingredients'>
                         <input 
                         type="text"
-                        onChange={(e) => setNewIng(e.target.value)}
-                        value={newIng}
+                        onChange={(e) => setNewIngredient(e.target.value)}
+                        value={newIngredient}
                         ref={ingredientInput}
                         />
                         <button className='btn' onClick={handleAdd}>add</button>
                     </div>
                 </label>
-                <p>Current ingredients: {ingS.map(i => <em key={i}>{i}, </em>)}</p>
+                <p>Current ingredients: {ingredients.map(i => <em key={i}>{i}, </em>)}</p>
 
                 <label>
                 <span>Recipe method:</span>
