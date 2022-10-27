@@ -7,11 +7,14 @@ function Navbar() {
         <div className='navbar'>
             <nav>
                 <Link to='/' className='brand'>
-                    <h1>Cooking Pad</h1>
+                    <h1>Cook Pad</h1>
                 </Link>
                 <SearchBar/>
                 <Link to='/create'>Create Recipe</Link>
+            
+                
             </nav>
+            
         </div>
     );
 }
