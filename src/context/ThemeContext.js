@@ -18,17 +18,17 @@ const themeReducer = (state, action) => {
     }
 }
 
-//тутвикористовуємо Редюсер
+//тут використовуємо Редюсер
 export function ThemeProvider({children}){
     const [state, dispatch] = useReducer(themeReducer, {
-        color: 'blue'
+        color: '#5c9743'
     })
 
     const changeColor = (color) => {
-        dispatch({type: 'CHANGE_COLOR' , payload: color})
+        dispatch({type: 'CHANGE_COLOR' , payload: color}) //dispatch action
     }
 
-    //custom logic
+    
 
     return (
         <ThemeContext.Provider value={{...state, changeColor}}>

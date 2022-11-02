@@ -8,11 +8,11 @@ import SearchBar from './SearchBar';
 function Navbar() {
     //тут використовуємо useContext
             // const {color} = useContext(ThemeContext)
-    const {color, changeColor} = useTheme()
+    const {color} = useTheme()
 
     return (
         <div className='navbar' style={{background: color}}>
-            <nav onClick={() => changeColor('pink')}>
+            <nav>
                 <Link to='/' className='brand'>
                     <h1>Cook Pad</h1>
                 </Link>
