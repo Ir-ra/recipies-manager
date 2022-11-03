@@ -1,10 +1,12 @@
 
 // import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import RecipeList from '../../components/RecipeList.js';
 // import {useFetch} from '../../hooks/useFetch.js'
 
+import { useEffect, useState } from 'react';
+import RecipeList from '../../components/RecipeList.js';
+
 import { projectFirestore } from '../../firebase/config'
+
 import './Home.css'
 
 function Home() {
@@ -23,7 +25,11 @@ function Home() {
 
         //colle-n зєднує з коле-ю на ФайрБейс (там під назвою recipes) і робить типу снепшот
         //воно А-синхолнне, тому можна викликати метод then
-        projectFirestore.collection('recipe').get().then((snapshot) => {
+        //projectFirestore.collection('recipe').get().then((snapshot) => {
+        //---------------------------------------------------------
+       
+        // !!!  onSnapshot піждигає функцію за допомоги snapshot !!!
+        const unsub = projectFirestore.collection('recipe').onSnapshot((snapshot) => {
             //snap-t має власт-ть empty. Вертає true/false. Перевіряємо чи там щось є
             if (snapshot.empty){
                 setError('No recipes to load')
@@ -32,16 +38,18 @@ function Home() {
                 let results = []
                 //snap-t має власт-ть docs. Містить в собі аррей док-в в колекції( те що на ФайрБ)
                 snapshot.docs.forEach(doc => {
-                    //юеремо пустий арр і вставляємо туди новий обьект (окремий рецепт). У doc є власт. id
+                    //беремо пустий арр і вставляємо туди новий обьект (окремий рецепт). У doc є власт. id
                     results.push({id: doc.id, ...doc.data()})
                 })
                 setData(results)
                 setIsPending(false)
             }
-        }) .catch(err => {
+        }, (err) => {
             setError(err.message)
             setIsPending(false)
-        })   
+        })
+
+        return () => unsub()
     }, [])
     
 
