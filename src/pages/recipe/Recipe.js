@@ -1,24 +1,49 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {useParams, useHistory} from 'react-router-dom'
 
-import { useFetch } from '../../hooks/useFetch';
+// import { useFetch } from '../../hooks/useFetch';
 import { useTheme } from '../../hooks/useTheme';
+import { projectFirestore } from '../../firebase/config'
 import './Recipe.css'
 
 function Recipe() {
-    const {id} = useParams()
-    const url = 'http://localhost:8000/recipes/'+id
-    const { data: recipE, isPending, error } = useFetch(url)
+    
+            //Раніше ми фетчили data
+    // const url = 'http://localhost:8000/recipes/'+id
+    // const { data: recipE, isPending, error } = useFetch(url)
+
+    const {id} = useParams()  //тепер воно бере id з ФайрБ
     const history = useHistory()
     const { mode } = useTheme()
 
+    const [recipE, setRecipE] = useState(null)
+    const [isPending, setIsPending] = useState(false)
+    const [error, setError] = useState(false)
+
+//connect to FireBase
+    useEffect(() => {
+        setIsPending(true)
+        
+        //.doc бо треба окремий док-т, тому дістаємо референс док-та
+        projectFirestore.collection('recipe').doc(id).get().then((doc) => {
+            if (doc.exists){
+                setIsPending(false)
+                setRecipE(doc.data())
+            } else {
+                setIsPending(false)
+                setError('Could not find that recipe')
+            }
+        })
+
+    }, [id])
+
 //delete + redirect
     const handleDelete = () => {
-        fetch('http://localhost:8000/recipes/'+recipE.id, {
-            method: 'DELETE'
-        }).then(()=>{
-            history.push('/')
-        })
+        // fetch('http://localhost:8000/recipes/'+recipE.id, {
+        //     method: 'DELETE'
+        // }).then(()=>{
+        //     history.push('/')
+        // })
     }
 
     useEffect(() => {
