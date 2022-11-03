@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {useParams, useHistory} from 'react-router-dom'
 
+
 // import { useFetch } from '../../hooks/useFetch';
 import { useTheme } from '../../hooks/useTheme';
 import { projectFirestore } from '../../firebase/config'
@@ -69,7 +70,7 @@ function Recipe() {
                     </ul>
                     
                     <p className='method'>{recipE.method}</p>
-                    <button onClick={handleDelete}>delete</button>
+                    {/* <button onClick={handleDelete}>delete</button> */}
                 </>
            )}
 

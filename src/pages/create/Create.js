@@ -1,6 +1,7 @@
-import { useFetch } from '../../hooks/useFetch';
+// import { useFetch } from '../../hooks/useFetch';
 import { useEffect, useRef, useState } from 'react';
 import {Redirect, useHistory} from 'react-router-dom'
+import { projectFirestore } from '../../firebase/config'
 import './Create.css'
 
 function Create() {
@@ -12,12 +13,21 @@ function Create() {
     const ingredientInput = useRef(null)
     const history = useHistory()
 
-    const {postData, data, error} = useFetch('http://localhost:8000/recipes', 'POST')
+    // const {postData, data, error} = useFetch('http://localhost:8000/recipes', 'POST')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(title, method, cookingTime, ingredients)
-        postData({title, ingredients, method, cookingTime: cookingTime + ' minutes'})
+        
+        // postData({title, ingredients, method, cookingTime: cookingTime + ' minutes'})
+        const doc = {title, ingredients, method, cookingTime: cookingTime + ' minutes'}        
+        
+        try{
+            //add генерує новий документ всередині колекції і автоматично додає унакальний id
+            await projectFirestore.collection('recipe').add(doc)
+            history.push('/')
+        } catch(err) {
+            console.log(err)
+        }
         
     }
 
@@ -31,14 +41,14 @@ function Create() {
         setNewIngredient('')
         ingredientInput.current.focus()  //focus - фокусується на інпуті, так що курсор автоматично на на тому ж інпуті залиш
     }
-//redirect
-    useEffect(() => {
-        if(data){
-            // <Redirect to='/'/>
-            history.push('/')
-        }
+//redirect - прибрали, бо використали його в функціїї handleSubmit
+    // useEffect(() => {
+    //     if(data){
+    //         // <Redirect to='/'/>
+    //         history.push('/')
+    //     }
         
-    }, [data, history])
+    // }, [data, history])
 
     return (
         <div className='create'>
