@@ -3,7 +3,7 @@
     justify-content: flex-end;
     align-items: center;
     max-width: 1200px;
-    margin: 20px auto;
+    margin: 20px 10px 0;
   }
   .theme-buttons div {
     display: inline-block;
@@ -12,4 +12,13 @@
     cursor: pointer;
     margin-left: 15px;
     border-radius: 50%;
+  }
+
+  .mode-toggle {
+    margin-right: auto;
+  }
+  .mode-toggle img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
   }

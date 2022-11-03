@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import {useParams, useHistory} from 'react-router-dom'
 
 import { useFetch } from '../../hooks/useFetch';
+import { useTheme } from '../../hooks/useTheme';
 import './Recipe.css'
 
 function Recipe() {
@@ -9,6 +10,7 @@ function Recipe() {
     const url = 'http://localhost:8000/recipes/'+id
     const { data: recipE, isPending, error } = useFetch(url)
     const history = useHistory()
+    const { mode } = useTheme()
 
 //delete + redirect
     const handleDelete = () => {
@@ -28,7 +30,7 @@ function Recipe() {
     }, [error, history])
 
     return ( 
-        <div className='recipe'>
+        <div className={`recipe ${mode}`}>
            {isPending && <p className='loading'>Loading...</p>}
            {error &&  <p className='error'>{error}</p>} 
            {recipE && (
