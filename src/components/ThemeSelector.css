@@ -3,7 +3,7 @@
     justify-content: flex-end;
     align-items: center;
     max-width: 1200px;
-    margin: 20px 10px 0;
+    margin: 20px auto;
   }
   .theme-buttons div {
     display: inline-block;
@@ -21,4 +21,13 @@
     width: 24px;
     height: 24px;
     cursor: pointer;
+  }
+
+  @media (max-width:1204px){
+    .theme-selector .theme-buttons{
+      margin-right: 20px ;
+    }
+    .theme-selector .mode-toggle {
+      margin-left: 20px;
+    }
   }

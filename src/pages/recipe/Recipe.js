@@ -26,7 +26,9 @@ function Recipe() {
         setIsPending(true)
         
         //.doc бо треба окремий док-т, тому дістаємо референс док-та
-        projectFirestore.collection('recipe').doc(id).get().then((doc) => {
+        //projectFirestore.collection('recipe').doc(id).get().then((doc) => {
+        //_____________________________________________________________
+        const unSUB = projectFirestore.collection('recipe').doc(id).onSnapshot((doc) => {
             if (doc.exists){
                 setIsPending(false)
                 setRecipE(doc.data())
@@ -36,16 +38,25 @@ function Recipe() {
             }
         })
 
+        return () => unSUB()
+
     }, [id])
 
 //delete + redirect
-    const handleDelete = () => {
+    // const handleDelete = () => {
         // fetch('http://localhost:8000/recipes/'+recipE.id, {
         //     method: 'DELETE'
         // }).then(()=>{
         //     history.push('/')
         // })
-    }
+    // }
+
+//Update
+    // const handleClick = () => {
+    //     projectFirestore.collection('recipe').doc(id).update({
+    //         title: 'Veg pizza'
+    //     })
+    // }
 
     useEffect(() => {
         if(error){
@@ -70,7 +81,7 @@ function Recipe() {
                     </ul>
                     
                     <p className='method'>{recipE.method}</p>
-                    {/* <button onClick={handleDelete}>delete</button> */}
+                    {/* <button onClick={handleClick}>Update the recipe</button> */}
                 </>
            )}
 
